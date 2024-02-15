@@ -79,6 +79,7 @@ def main():
             hex_code = aircraft['hex'].upper()
             flight = aircraft.get('flight', '').strip().upper()
             squawk = aircraft.get('squawk', '')
+            plane_url = f"http://adsbexchange.local/tar1090/?icao={hex_code}"
 
             # Alert on specific squawk codes
             if squawk in SQUAWK_MEANINGS and (
@@ -93,13 +94,15 @@ def main():
                         f"Flight: {aircraft.get('flight', 'N/A')}\nAltitude: {aircraft.get('alt_geom', 'N/A')} ft\n"
                         f"Ground Speed: {aircraft.get('gs', 'N/A')} knots\nTrack: {aircraft.get('track', 'N/A')}\n"
                         f"Operator: {context.get('$Operator', 'N/A')}\nType: {context.get('$Type', 'N/A')}\n"
+                        f"Plane URL: {plane_url}\n"
                         f"Image: {context.get('#ImageLink', 'N/A')}"
                     )
                 else:
                     message = (
                         f"Squawk Alert!\nHex: {hex_code}\nSquawk: {squawk} ({squawk_meaning})\n"
                         f"Flight: {aircraft.get('flight', 'N/A')}\nAltitude: {aircraft.get('alt_geom', 'N/A')} ft\n"
-                        f"Ground Speed: {aircraft.get('gs', 'N/A')} knots\nTrack: {aircraft.get('track', 'N/A')}"
+                        f"Ground Speed: {aircraft.get('gs', 'N/A')} knots\nTrack: {aircraft.get('track', 'N/A')}\n"
+                        f"Plane URL: {plane_url}"
                     )
 
                 status_code = send_telegram_alert(message)
@@ -129,6 +132,7 @@ def main():
                                     f"Track: {aircraft.get('track', 'N/A')}\n"
                                     f"Operator: {context.get('$Operator', 'N/A')}\n"
                                     f"Type: {context.get('$Type', 'N/A')}\n"
+                                    f"Plane URL: {plane_url}\n"
                                     f"Image: {context.get('#ImageLink', 'N/A')}"
                                 )
                             else:
@@ -139,7 +143,8 @@ def main():
                                     f"Flight: {aircraft.get('flight', 'N/A')}\n"
                                     f"Altitude: {aircraft.get('alt_geom', 'N/A')} ft\n"
                                     f"Ground Speed: {aircraft.get('gs', 'N/A')} knots\n"
-                                    f"Track: {aircraft.get('track', 'N/A')}"
+                                    f"Track: {aircraft.get('track', 'N/A')}\n"
+                                    f"Plane URL: {plane_url}"
                                 )
 
                             status_code = send_telegram_alert(message)
@@ -164,6 +169,7 @@ def main():
                                 f"Track: {aircraft.get('track', 'N/A')}\n"
                                 f"Operator: {context.get('$Operator', 'N/A')}\n"
                                 f"Type: {context.get('$Type', 'N/A')}\n"
+                                f"Plane URL: {plane_url}\n"
                                 f"Image: {context.get('#ImageLink', 'N/A')}"
                             )
                         else:
@@ -173,7 +179,8 @@ def main():
                                 f"Flight: {aircraft.get('flight', 'N/A')}\n"
                                 f"Altitude: {aircraft.get('alt_geom', 'N/A')} ft\n"
                                 f"Ground Speed: {aircraft.get('gs', 'N/A')} knots\n"
-                                f"Track: {aircraft.get('track', 'N/A')}"
+                                f"Track: {aircraft.get('track', 'N/A')}\n"
+                                f"Plane URL: {plane_url}"
                             )
 
                         status_code = send_telegram_alert(message)
